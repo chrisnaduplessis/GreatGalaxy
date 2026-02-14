@@ -1,6 +1,7 @@
 ﻿using GreatGalaxy.Administration.DomainItems;
 using GreatGalaxy.Administration.Repositories;
 using GreatGalaxy.Common.ValueTypes;
+using GreatGalaxy.Common.ValueTypes.Vehicle;
 
 namespace GreatGalaxy.Administration.Services
 {

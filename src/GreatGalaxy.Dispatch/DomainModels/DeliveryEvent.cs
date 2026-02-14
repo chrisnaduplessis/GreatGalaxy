@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreatGalaxy.Common.ValueTypes.Event;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
@@ -7,7 +8,7 @@ namespace GreatGalaxy.Dispatch.DomainModels
 {
     public class DeliveryEvent
     {
-        public EventType EventType { get; set; }
+        public EventCategory EventType { get; set; }
 
         public DateTime Timestamp { get; set; }
 

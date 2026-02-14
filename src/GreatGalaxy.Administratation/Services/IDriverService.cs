@@ -1,5 +1,6 @@
 ﻿using GreatGalaxy.Administration.DomainItems;
-using GreatGalaxy.Common.ValueTypes;
+using GreatGalaxy.Common.ValueTypes.Driver;
+using GreatGalaxy.Common.ValueTypes.Vehicle;
 
 namespace GreatGalaxy.Administration.Services
 {
@@ -25,14 +26,14 @@ namespace GreatGalaxy.Administration.Services
         /// </summary>
         /// <param name="driver"></param>
         /// <returns></returns>
-        Driver Retire(Driver driver);
+        Driver Retire(DriverId driverId);
 
         /// <summary>
         /// Reactivate a resigned driver, which means they will become active again and can be assigned to vehicles.
         /// </summary>
         /// <param name="driver"></param>
         /// <returns></returns>
-        Driver Reactivate(Driver driver);
+        Driver Reactivate(DriverId driverId);
 
         /// <summary>
         /// Add a vehicle to the list of vehicles that the driver is approved to drive. This means the driver has permission to operate the specified vehicle.

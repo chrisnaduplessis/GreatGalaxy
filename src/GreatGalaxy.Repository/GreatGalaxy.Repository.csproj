@@ -10,5 +10,9 @@
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.21" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GreatGalaxy.Common\GreatGalaxy.Common.csproj" />
+  </ItemGroup>
   
 </Project>

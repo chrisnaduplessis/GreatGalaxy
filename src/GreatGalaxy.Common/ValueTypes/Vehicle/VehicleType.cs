@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GreatGalaxy.Common.ValueTypes
+namespace GreatGalaxy.Common.ValueTypes.Vehicle
 {
     public readonly record struct VehicleType
     {

@@ -1,6 +1,7 @@
 ﻿using GreatGalaxy.Administration.DomainItems;
 using GreatGalaxy.Administration.Repositories;
-using GreatGalaxy.Common.ValueTypes;
+using GreatGalaxy.Common.ValueTypes.Driver;
+using GreatGalaxy.Common.ValueTypes.Vehicle;
 using System.Xml.Linq;
 
 namespace GreatGalaxy.Administration.Services
@@ -32,7 +33,7 @@ namespace GreatGalaxy.Administration.Services
             return driver;
         }
 
-        public Driver Resign(DriverId driverId)
+        public Driver Retire(DriverId driverId)
         {
             var driver = this.driverRepository.Get(driverId);
             if (driver == null)

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using GreatGalaxy.Common.ValueTypes.Event;
 
 namespace GreatGalaxy.Repository.Entities
 {
-    public class EventTypeEntity
+    public class EventTypeEntity : IEntity
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+
+        public EventCategory Category { get; set; }
 
         public string Name { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using GreatGalaxy.Common.ValueTypes;
+using GreatGalaxy.Common.ValueTypes.Vehicle;
 
 namespace GreatGalaxy.Administration.DomainItems
 {

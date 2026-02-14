@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GreatGalaxy.Common\GreatGalaxy.Common.csproj" />
     <ProjectReference Include="..\GreatGalaxy.Repository\GreatGalaxy.Repository.csproj" />
   </ItemGroup>
 

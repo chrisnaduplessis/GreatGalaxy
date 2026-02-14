@@ -1,11 +1,12 @@
-﻿//using VehicleService.Application;
-//using VehicleService.Infrastructure;
-
-using GreatGalaxy.Administration.Repositories;
+﻿using GreatGalaxy.Administration.Repositories;
 using GreatGalaxy.Administration.Requests.Driver;
+using GreatGalaxy.Administration.Requests.EventType;
 using GreatGalaxy.Administration.Requests.Vehicle;
 using GreatGalaxy.Administration.Services;
 using GreatGalaxy.Common.ValueTypes;
+using GreatGalaxy.Common.ValueTypes.Driver;
+using GreatGalaxy.Common.ValueTypes.Event;
+using GreatGalaxy.Common.ValueTypes.Vehicle;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,10 @@ builder.Services.AddSingleton<IVehicleService, VehicleService>();
 builder.Services.AddSingleton<IDriverRepository, DriverRepository>();
 builder.Services.AddSingleton<IDriverService, DriverService>();
 
+// Event type services
+builder.Services.AddSingleton<IEventTypeRepository, EventTypeRepository>();
+builder.Services.AddSingleton<IEventTypeService, EventTypeService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,11 +32,10 @@ app.UseSwaggerUI();
 
 
 // Using this simple implementation to save time,
-// but in a real application we would have more complex logic and error handling here,
-// and we would also have endpoints for updating and deleting vehicles, as well as for managing other entities like drivers, routes, etc.
+// but in a real application we would have more complex logic and error handling here
 
 // Vehicles
-app.MapPut("/vehicles", (CreateVehicleRequest request, IVehicleService service) =>
+app.MapPost("/vehicles", (CreateVehicleRequest request, IVehicleService service) =>
 {
     var vehicle = service.Create(
         request.Make,
@@ -44,7 +48,8 @@ app.MapPut("/vehicles", (CreateVehicleRequest request, IVehicleService service) 
     return Results.Created($"/vehicles/{vehicle.Id.Value}", vehicle);
 });
 
-app.MapPost("/vehicles", (UpdateVehicleRequest request, IVehicleService service) =>
+// Using patch here to allow partial update
+app.MapPatch("/vehicles", (UpdateVehicleRequest request, IVehicleService service) =>
 {
     var vehicle = service.Update(
         request.vehicleId,
@@ -86,14 +91,12 @@ app.MapPatch("/drivers/{id:int}", (int id, RenameDriverRequest request, IDriverS
 
 app.MapPost("/drivers/{id:int}/retire", (int id, IDriverService service) =>
 {
-    var driver = service.Get(new DriverId(id));
-    return Results.Ok(service.Retire(driver));
+    return Results.Ok(service.Retire(new DriverId(id)));
 });
 
 app.MapPost("/drivers/{id:int}/reactivate", (int id, IDriverService service) =>
 {
-    var driver = service.Get(new DriverId(id));
-    return Results.Ok(service.Reactivate(driver));
+    return Results.Ok(service.Reactivate(new DriverId(id)));
 });
 
 app.MapPost("/drivers/{id:int}/approved-vehicles",
@@ -131,6 +134,38 @@ app.MapGet("/drivers", (bool? activeOnly, IDriverService service) =>
     return Results.Ok(drivers);
 });
 
+// Event type
+app.MapPost("/event-types",
+    (CreateEventTypeRequest request, IEventTypeService service) =>
+    {
+        var eventType = service.Create(
+            request.Name,
+            request.Description,
+            request.Category);
+
+        return Results.Created(
+            $"/event-types/{eventType.Id.Value}", eventType);
+    });
+
+app.MapPatch("/event-types/{id:int}",
+    (int id, UpdateDescriptionRequest request, IEventTypeService service) =>
+    {
+        var success = service.UpdateDescription(
+            new EventTypeId(id),
+            request.Description);
+
+        return success ? Results.NoContent() : Results.NotFound();
+    });
+
+app.MapGet("/event-types",
+    (EventCategory? category, IEventTypeService service) =>
+    {
+        var result = category.HasValue
+            ? service.GetByCategory(category.Value)
+            : service.GetAll();
+
+        return Results.Ok(result);
+    });
 
 app.Run();
 
