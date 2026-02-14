@@ -1,7 +1,8 @@
-﻿using GreatGalaxy.Administration.DomainItems;
+﻿using GreatGalaxy.Administration.Models;
 using GreatGalaxy.Common.ValueTypes;
 using GreatGalaxy.Common.ValueTypes.Driver;
-using GreatGalaxy.Repository.Driver;
+using GreatGalaxy.Common.ValueTypes.Vehicle;
+using GreatGalaxy.Repository.Entities;
 using GreatGalaxy.Repository.Repositories;
 
 namespace GreatGalaxy.Administration.Repositories

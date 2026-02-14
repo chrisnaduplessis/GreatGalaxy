@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreatGalaxy.Repository.Entities.Location;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,9 +11,9 @@ namespace GreatGalaxy.Repository.Entities
 
         public string Description { get; set; }
 
-        public AddressEntity Orgin { get; set; }
+        public LocationEntity Orgin { get; set; }
 
-        public AddressEntity Destination { get; set; }
+        public LocationEntity Destination { get; set; }
 
         public double WeightKg { get; set; }
 

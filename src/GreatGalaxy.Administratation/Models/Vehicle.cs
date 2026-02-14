@@ -1,7 +1,7 @@
 ﻿using GreatGalaxy.Common.ValueTypes;
 using GreatGalaxy.Common.ValueTypes.Vehicle;
 
-namespace GreatGalaxy.Administration.DomainItems
+namespace GreatGalaxy.Administration.Models
 {
     public class Vehicle
     {

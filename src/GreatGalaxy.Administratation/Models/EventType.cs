@@ -1,7 +1,6 @@
-﻿using GreatGalaxy.Common.ValueTypes;
-using GreatGalaxy.Common.ValueTypes.Event;
+﻿using GreatGalaxy.Common.ValueTypes.Event;
 
-namespace GreatGalaxy.Administration.DomainItems
+namespace GreatGalaxy.Administration.Models
 {
     public class EventType
     {

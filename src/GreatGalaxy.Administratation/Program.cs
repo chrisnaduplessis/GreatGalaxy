@@ -1,11 +1,13 @@
 ﻿using GreatGalaxy.Administration.Repositories;
 using GreatGalaxy.Administration.Requests.Driver;
 using GreatGalaxy.Administration.Requests.EventType;
+using GreatGalaxy.Administration.Requests.Planet;
 using GreatGalaxy.Administration.Requests.Vehicle;
 using GreatGalaxy.Administration.Services;
 using GreatGalaxy.Common.ValueTypes;
 using GreatGalaxy.Common.ValueTypes.Driver;
 using GreatGalaxy.Common.ValueTypes.Event;
+using GreatGalaxy.Common.ValueTypes.Location;
 using GreatGalaxy.Common.ValueTypes.Vehicle;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,10 @@ builder.Services.AddSingleton<IDriverService, DriverService>();
 // Event type services
 builder.Services.AddSingleton<IEventTypeRepository, EventTypeRepository>();
 builder.Services.AddSingleton<IEventTypeService, EventTypeService>();
+
+// Planet services
+builder.Services.AddSingleton<IPlanetRepository, PlanetRepository>();
+builder.Services.AddSingleton<IPlanetService, PlanetService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -167,6 +173,44 @@ app.MapGet("/event-types",
         return Results.Ok(result);
     });
 
+// Planet
+app.MapPost("/planets", (CreatePlanetRequest request, IPlanetService service) =>
+{
+    var planet = service.Create(request.Name);
+    return Results.Created($"/planets/{planet.Id.Value}", planet);
+});
+
+app.MapPost("/planets/{planetId:int}/countries", (int planetId, CreateCountryRequest request, IPlanetService service) =>
+{
+    var planet = service.AddCountry(new PlanetId(planetId), request.Name);
+    return Results.Ok(planet.Countries);
+});
+
+app.MapPost("/planets/{planetId:int}/countries/{countryId:int}/locations",
+    (int planetId, int countryId, AddLocationRequest request, IPlanetService service) =>
+    {
+        var planet = service.AddLocation(
+            new PlanetId(planetId),
+            new CountryId(countryId),
+            new Address(request.AddressLine1, request.AddressLine2, request.City, request.PostalCode));
+
+        return Results.Ok(planet.Countries.First(_ => _.Id.Value.Value == countryId).Locations);
+    });
+
+app.MapGet("/planets/{planetId:int}", (int planetId, IPlanetService service) =>
+{
+    var planet = service.Get(new PlanetId(planetId));
+    return planet is null ? Results.NotFound() : Results.Ok(planet);
+});
+
+app.MapGet("/planets", (string? name, IPlanetService service) =>
+{
+    var planets = name != null
+        ? new[] { service.GetByName(name) }
+        : service.GetAll();
+
+    return Results.Ok(planets);
+});
 app.Run();
 
 

@@ -1,4 +1,4 @@
-﻿using GreatGalaxy.Common.ValueTypes;
+﻿using GreatGalaxy.Common.ValueTypes.Location;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;

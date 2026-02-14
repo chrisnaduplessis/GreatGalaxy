@@ -1,4 +1,4 @@
-﻿using GreatGalaxy.Administration.DomainItems;
+﻿using GreatGalaxy.Administration.Models;
 using GreatGalaxy.Common.ValueTypes.Driver;
 using GreatGalaxy.Common.ValueTypes.Vehicle;
 

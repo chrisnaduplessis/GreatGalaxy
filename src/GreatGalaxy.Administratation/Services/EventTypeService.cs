@@ -1,6 +1,5 @@
-﻿using GreatGalaxy.Administration.DomainItems;
+﻿using GreatGalaxy.Administration.Models;
 using GreatGalaxy.Administration.Repositories;
-using GreatGalaxy.Common.ValueTypes;
 using GreatGalaxy.Common.ValueTypes.Event;
 
 namespace GreatGalaxy.Administration.Services

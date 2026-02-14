@@ -1,6 +1,4 @@
-﻿using GreatGalaxy.Repository.Entities;
-
-namespace GreatGalaxy.Repository.Driver
+﻿namespace GreatGalaxy.Repository.Entities
 {
     public class DriverEntity : IEntity
     {
