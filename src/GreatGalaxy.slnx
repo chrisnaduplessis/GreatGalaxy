@@ -2,6 +2,7 @@
   <Project Path="GreatGalaxy.Administratation/GreatGalaxy.Administration.csproj" />
   <Project Path="GreatGalaxy.Common/GreatGalaxy.Common.csproj" Id="2ae53c92-0b34-4c73-866c-1b17da987ec2" />
   <Project Path="GreatGalaxy.Dispatch/GreatGalaxy.Dispatch.csproj" />
+  <Project Path="GreatGalaxy.Integration.Tests/GreatGalaxy.Integration.Tests.csproj" Id="dfe46d28-e182-4ecf-a191-f048dcdf4e6b" />
   <Project Path="GreatGalaxy.Reporting/GreatGalaxy.Reporting.csproj" />
   <Project Path="GreatGalaxy.Repository/GreatGalaxy.Repository.csproj" Id="53f07e2e-ed11-4f33-b893-b5673517921e" />
 </Solution>

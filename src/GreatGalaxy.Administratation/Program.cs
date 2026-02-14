@@ -3,6 +3,7 @@ using GreatGalaxy.Administration.Requests.Driver;
 using GreatGalaxy.Administration.Requests.EventType;
 using GreatGalaxy.Administration.Requests.Planet;
 using GreatGalaxy.Administration.Requests.Vehicle;
+using GreatGalaxy.Administration.Responses;
 using GreatGalaxy.Administration.Services;
 using GreatGalaxy.Common.ValueTypes;
 using GreatGalaxy.Common.ValueTypes.Driver;
@@ -19,14 +20,6 @@ builder.Services.AddSingleton<IVehicleService, VehicleService>();
 // Driver services
 builder.Services.AddSingleton<IDriverRepository, DriverRepository>();
 builder.Services.AddSingleton<IDriverService, DriverService>();
-
-// Event type services
-builder.Services.AddSingleton<IEventTypeRepository, EventTypeRepository>();
-builder.Services.AddSingleton<IEventTypeService, EventTypeService>();
-
-// Planet services
-builder.Services.AddSingleton<IPlanetRepository, PlanetRepository>();
-builder.Services.AddSingleton<IPlanetService, PlanetService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -51,7 +44,7 @@ app.MapPost("/vehicles", (CreateVehicleRequest request, IVehicleService service)
         request.VolumeAllowanceM3,
         request.SpeedMetersPerSecond);
 
-    return Results.Created($"/vehicles/{vehicle.Id.Value}", vehicle);
+    return Results.Created($"/vehicles/{vehicle.Id.Value}", vehicle.ToDto());
 });
 
 // Using patch here to allow partial update
@@ -67,7 +60,7 @@ app.MapPatch("/vehicles", (UpdateVehicleRequest request, IVehicleService service
 app.MapGet("/vehicles/{id:int}", (int id, IVehicleService service) =>
 {
     var vehicle = service.Get(new VehicleId(id));
-    return vehicle is null ? Results.NotFound() : Results.Ok(vehicle);
+    return vehicle is null ? Results.NotFound() : Results.Ok(vehicle.ToDto());
 });
 
 app.MapDelete("/vehicles/{id:int}", (int id, IVehicleService service) =>
@@ -79,30 +72,32 @@ app.MapDelete("/vehicles/{id:int}", (int id, IVehicleService service) =>
 app.MapGet("/vehicles/", (IVehicleService service) =>
 {
     var vehicles = service.GetAll();
-    return Results.Ok(vehicles);
+    return Results.Ok(vehicles.Select(_ => _.ToDto()));
 });
 
 // Driver
 app.MapPost("/drivers", (CreateDriverRequest request, IDriverService service) =>
 {
     var driver = service.Create(request.Name);
-    return Results.Created($"/drivers/{driver.Id.Value}", driver);
+    return Results.Created($"/drivers/{driver.Id.Value}", driver.ToDto());
 });
 
 app.MapPatch("/drivers/{id:int}", (int id, RenameDriverRequest request, IDriverService service) =>
 {
     var driver = service.Rename(new DriverId(id), request.Name);
-    return Results.Ok(driver);
+    return Results.NoContent();
 });
 
 app.MapPost("/drivers/{id:int}/retire", (int id, IDriverService service) =>
 {
-    return Results.Ok(service.Retire(new DriverId(id)));
+    service.Retire(new DriverId(id));
+    return Results.NoContent();
 });
 
 app.MapPost("/drivers/{id:int}/reactivate", (int id, IDriverService service) =>
 {
-    return Results.Ok(service.Reactivate(new DriverId(id)));
+    service.Reactivate(new DriverId(id));
+    return Results.NoContent();
 });
 
 app.MapPost("/drivers/{id:int}/approved-vehicles",
@@ -112,7 +107,7 @@ app.MapPost("/drivers/{id:int}/approved-vehicles",
             new DriverId(id),
             new VehicleId(request.VehicleId));
 
-        return Results.Ok(driver);
+        return Results.Ok(driver.ToDto());
     });
 
 app.MapDelete("/drivers/{id:int}/approved-vehicles/{vehicleId:int}",
@@ -122,95 +117,24 @@ app.MapDelete("/drivers/{id:int}/approved-vehicles/{vehicleId:int}",
             new DriverId(id),
             new VehicleId(vehicleId));
 
-        return Results.Ok(driver);
+        return Results.Ok(driver.ToDto());
     });
 
 app.MapGet("/drivers/{id:int}", (int id, IDriverService service) =>
 {
     var driver = service.Get(new DriverId(id));
-    return driver is null ? Results.NotFound() : Results.Ok(driver);
+    return driver is null ? Results.NotFound() : Results.Ok(driver.ToDto());
 });
 
 app.MapGet("/drivers", (bool? activeOnly, IDriverService service) =>
 {
     var drivers = activeOnly == true
-        ? service.GetAllActive()
-        : service.GetAll();
+        ? service.GetAllActive().Select(_ => _.ToDto())
+        : service.GetAll().Select(_ => _.ToDto());
 
     return Results.Ok(drivers);
 });
 
-// Event type
-app.MapPost("/event-types",
-    (CreateEventTypeRequest request, IEventTypeService service) =>
-    {
-        var eventType = service.Create(
-            request.Name,
-            request.Description,
-            request.Category);
-
-        return Results.Created(
-            $"/event-types/{eventType.Id.Value}", eventType);
-    });
-
-app.MapPatch("/event-types/{id:int}",
-    (int id, UpdateDescriptionRequest request, IEventTypeService service) =>
-    {
-        var success = service.UpdateDescription(
-            new EventTypeId(id),
-            request.Description);
-
-        return success ? Results.NoContent() : Results.NotFound();
-    });
-
-app.MapGet("/event-types",
-    (EventCategory? category, IEventTypeService service) =>
-    {
-        var result = category.HasValue
-            ? service.GetByCategory(category.Value)
-            : service.GetAll();
-
-        return Results.Ok(result);
-    });
-
-// Planet
-app.MapPost("/planets", (CreatePlanetRequest request, IPlanetService service) =>
-{
-    var planet = service.Create(request.Name);
-    return Results.Created($"/planets/{planet.Id.Value}", planet);
-});
-
-app.MapPost("/planets/{planetId:int}/countries", (int planetId, CreateCountryRequest request, IPlanetService service) =>
-{
-    var planet = service.AddCountry(new PlanetId(planetId), request.Name);
-    return Results.Ok(planet.Countries);
-});
-
-app.MapPost("/planets/{planetId:int}/countries/{countryId:int}/locations",
-    (int planetId, int countryId, AddLocationRequest request, IPlanetService service) =>
-    {
-        var planet = service.AddLocation(
-            new PlanetId(planetId),
-            new CountryId(countryId),
-            new Address(request.AddressLine1, request.AddressLine2, request.City, request.PostalCode));
-
-        return Results.Ok(planet.Countries.First(_ => _.Id.Value.Value == countryId).Locations);
-    });
-
-app.MapGet("/planets/{planetId:int}", (int planetId, IPlanetService service) =>
-{
-    var planet = service.Get(new PlanetId(planetId));
-    return planet is null ? Results.NotFound() : Results.Ok(planet);
-});
-
-app.MapGet("/planets", (string? name, IPlanetService service) =>
-{
-    var planets = name != null
-        ? new[] { service.GetByName(name) }
-        : service.GetAll();
-
-    return Results.Ok(planets);
-});
 app.Run();
 
 

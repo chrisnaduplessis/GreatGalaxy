@@ -1,17 +1,18 @@
 ﻿using GreatGalaxy.Repository.Entities.Location;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GreatGalaxy.Repository.Entities
 {
-    public class RouteEntity
+    public class RouteEntity : IEntity
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public  LocationEntity Origin { get; set; }
+        public string Name { get; set; }
 
-        public List<LocationEntity> Checkpoints { get; set; }
+        public string Description { get; set; }
+
+        public LocationEntity Origen { get; set; }
+
+        public IEnumerable<LocationEntity> Checkpoints { get; set; }
 
         public LocationEntity Destination { get; set; }
 

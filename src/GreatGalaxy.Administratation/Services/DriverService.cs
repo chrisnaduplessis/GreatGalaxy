@@ -17,7 +17,7 @@ namespace GreatGalaxy.Administration.Services
 
         public Driver Create(string name)
         {
-            var driver = new Driver(null, name, new HashSet<VehicleId>());
+            var driver = new Driver(null, name, new HashSet<VehicleId>(), null);
             return this.driverRepository.Create(driver);
         }
 
@@ -30,6 +30,7 @@ namespace GreatGalaxy.Administration.Services
             }
 
             driver.Rename(name);
+            this.driverRepository.Update(driver);
             return driver;
         }
 
@@ -42,6 +43,7 @@ namespace GreatGalaxy.Administration.Services
             }
 
             driver.Resign();
+            this.driverRepository.Update(driver);
             return driver;
         }
 
@@ -54,6 +56,7 @@ namespace GreatGalaxy.Administration.Services
             }
 
             driver.Reactivate();
+            this.driverRepository.Update(driver);
             return driver;
         }
 

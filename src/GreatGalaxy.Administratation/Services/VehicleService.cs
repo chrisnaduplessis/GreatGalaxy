@@ -73,6 +73,8 @@ namespace GreatGalaxy.Administration.Services
             }
 
             existingVehicle.Scrap();
+
+            vehicleRepository.Update(existingVehicle);
         }
     }
 }

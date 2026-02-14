@@ -46,16 +46,17 @@ namespace GreatGalaxy.Administration.Repositories
         {
             return new DriverEntity
             {
-                Id = driver.Id.HasValue ? driver.Id.Value.Value : 0,
+                Id = driver?.Id.HasValue ?? false ? driver.Id.Value.Value : 0,
                 Name = driver.Name,
-                ApprovedToDriveVehicles = driver.ApprovedVehicles.Select(v => v.Value).ToList()
+                Retired = driver.Retired,
+                ApprovedToDriveVehicles = driver.ApprovedVehicles?.Select(v => v.Value).ToList() ?? new List<int>()
             };
         }
 
         private static Driver MapToDriver(DriverEntity driverEntity)
         {
             var approvedVehicles = driverEntity.ApprovedToDriveVehicles.Select(v => new VehicleId(v)).ToHashSet();
-            var driver = new Driver(new DriverId(driverEntity.Id), driverEntity.Name, approvedVehicles);
+            var driver = new Driver(new DriverId(driverEntity.Id), driverEntity.Name, approvedVehicles, driverEntity.Retired);
             return driver;
         }
     }

@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using GreatGalaxy.Common.ValueTypes.Delivery;
 
 namespace GreatGalaxy.Repository.Entities
 {
-    public class DeliveryEntity
+    public class DeliveryEntity : IEntity
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public RouteEntity Route { get; set; }
+        public int RouteId { get; set; }
 
-        public DriverEntity Driver { get; set; }
+        public int DriverId { get; set; }
 
-        public List<DeliveryCheckpoint> CheckpointReached { get; set; }
+        public int VehicleId { get; set; }
 
-        public List<PackageEntity> Packages { get; set; } = new List<PackageEntity>();
+        public List<CheckpointReachedEntity> CheckpointReached { get; set; }
 
-        public DateTime Departed { get; set; }
+        public DeliveryStatus Status { get; set; }
 
-        public DateTime Arrived { get; set; }
+        public DateTime? Departed { get; set; }
+
+        public DateTime? Arrived { get; set; }
+
+        public List<DeliveryEventEntity> Events { get; set; }
     }
 }

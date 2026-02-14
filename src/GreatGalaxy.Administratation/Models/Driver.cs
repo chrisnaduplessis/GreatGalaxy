@@ -5,7 +5,7 @@ namespace GreatGalaxy.Administration.Models
 {
     public class Driver
     {
-        private HashSet<VehicleId> approvedVehicles;
+        public HashSet<VehicleId> ApprovedVehicles { get; private set; }
 
         public DriverId? Id { get; }
 
@@ -13,31 +13,30 @@ namespace GreatGalaxy.Administration.Models
 
         public DateTime? Retired { get; private set; }
 
-        public IReadOnlyCollection<VehicleId> ApprovedVehicles => approvedVehicles;
-
-        public Driver(DriverId? id, string name, HashSet<VehicleId> approvedVehicles)
+        public Driver(DriverId? id, string name, HashSet<VehicleId> approvedVehicles, DateTime? retired)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Driver name is required", nameof(name));
 
             Id = id;
             Name = name;
-            approvedVehicles = approvedVehicles ?? new HashSet<VehicleId>();
+            Retired = retired;
+            ApprovedVehicles = approvedVehicles ?? new HashSet<VehicleId>();
         }
 
         public void ApproveVehicle(VehicleId vehicleId)
         {
-            if (!approvedVehicles.Add(vehicleId))
+            if (!ApprovedVehicles.Add(vehicleId))
                 throw new InvalidOperationException("Driver is already approved for this vehicle.");
         }
 
         public void RevokeVehicleApproval(VehicleId vehicleId)
         {
-            approvedVehicles.Remove(vehicleId);
+            ApprovedVehicles.Remove(vehicleId);
         }
 
         public bool CanDrive(VehicleId vehicleId)
-            => approvedVehicles.Contains(vehicleId);
+            => ApprovedVehicles.Contains(vehicleId);
 
         public void Rename(string newName)
         {

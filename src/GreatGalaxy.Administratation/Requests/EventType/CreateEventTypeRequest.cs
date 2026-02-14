@@ -2,5 +2,5 @@
 
 namespace GreatGalaxy.Administration.Requests.EventType
 {
-    public record CreateEventTypeRequest(string Name, string Description, EventCategory Category);
+    public record CreateEventTypeRequest(string Name, string Description, Common.ValueTypes.Event.EventType Category);
 }
