@@ -6,7 +6,7 @@ namespace GreatGalaxy.Reporting.Models
     public record DeliveryEvent
     (
         Guid EventId,
-        EventType EventType,
+        string EventType,
         DateTime Timestamp,
         TimeSpan Duration,
         int? RelatedCheckpoint,

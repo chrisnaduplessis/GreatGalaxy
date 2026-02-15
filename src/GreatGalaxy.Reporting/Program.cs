@@ -1,13 +1,10 @@
 ﻿using GreatGalaxy.Common.ValueTypes.Delivery;
 using GreatGalaxy.Reporting.Repositories;
 using GreatGalaxy.Reporting.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace GreatGalaxy.Reporting
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {

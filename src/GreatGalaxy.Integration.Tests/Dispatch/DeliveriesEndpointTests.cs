@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using GreatGalaxy.Common.ValueTypes.Delivery;
 using GreatGalaxy.Dispatch.Messages;
-using GreatGalaxy.Dispatch.Models;
 using GreatGalaxy.Dispatch.Requests;
 using GreatGalaxy.Dispatch.Responses;
 using MassTransit.Testing;
@@ -21,7 +20,6 @@ namespace GreatGalaxy.Integration.Tests.Dispatch
         {
             client = factory.CreateClient();
             harness = factory.Services.GetRequiredService<ITestHarness>();
-            
         }
 
         [Fact]

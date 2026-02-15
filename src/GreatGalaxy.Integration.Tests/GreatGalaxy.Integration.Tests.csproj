@@ -21,10 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GreatGalaxy.Administratation\GreatGalaxy.Administration.csproj" />
     <ProjectReference Include="..\GreatGalaxy.Dispatch\GreatGalaxy.Dispatch.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Reporting\" />
+    <ProjectReference Include="..\GreatGalaxy.Reporting\GreatGalaxy.Reporting.csproj" />
   </ItemGroup>
 
 </Project>

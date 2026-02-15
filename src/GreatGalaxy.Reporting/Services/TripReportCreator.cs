@@ -50,7 +50,7 @@ namespace GreatGalaxy.Reporting.Services
 
             var routeEntity = this.routeRepository.Get(delivery.RouteId);
 
-            var events = delivery.Events.Select(e => new DeliveryEvent(e.EventId, e.EventType, e.Timestamp, e.Duration, e.RelatedCheckpoint, e.Description)).ToList();
+            var events = delivery.Events.Select(e => new DeliveryEvent(e.EventId, e.EventType.ToString(), e.Timestamp, e.Duration, e.RelatedCheckpoint, e.Description)).ToList();
 
             var checkpoints = routeEntity.Checkpoints.Select(c =>
             new Checkpoint(
