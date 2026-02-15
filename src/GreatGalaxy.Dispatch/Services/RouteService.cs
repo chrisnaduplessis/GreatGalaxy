@@ -33,7 +33,7 @@ namespace GreatGalaxy.Dispatch.Services
 
         public DeliveryRoute GetRoute(RouteId routeId)
         {
-            return this.GetRoute(routeId);
+            return this.routeRepository.Get(routeId);
         }
 
         public bool AddCheckpoint(RouteId routeId, Address checkpoint)

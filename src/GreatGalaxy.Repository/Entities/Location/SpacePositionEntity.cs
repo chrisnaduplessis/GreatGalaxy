@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GreatGalaxy.Repository.Entities.Location
+﻿namespace GreatGalaxy.Repository.Entities.Location
 {
     public class SpacePositionEntity
     {

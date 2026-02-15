@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace GreatGalaxy.Integration.Tests.Administration
+namespace GreatGalaxy.Integration.Tests.Dispatch
 {
-    public class TestWebApplicationFactory : WebApplicationFactory<Program>
+    // Explicitly reference the correct Program type to resolve CS0433
+    using AdministrationProgram = GreatGalaxy.Dispatch.Program;
+
+    public class DispatchWebApplicationFactory : WebApplicationFactory<AdministrationProgram>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -22,7 +25,7 @@ namespace GreatGalaxy.Integration.Tests.Administration
                 // Replace MassTransit transport with in-memory
                 services.AddMassTransitTestHarness(x =>
                 {
-                    x.AddConsumers(typeof(Program).Assembly);
+                    x.AddConsumers(typeof(AdministrationProgram).Assembly);
 
                     x.UsingInMemory((context, cfg) =>
                     {

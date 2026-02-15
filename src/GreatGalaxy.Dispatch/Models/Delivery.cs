@@ -8,7 +8,7 @@ namespace GreatGalaxy.Dispatch.Models
 {
     public class Delivery
     {
-        public DeliveryId Id { get; }
+        public DeliveryId? Id { get; }
 
         public RouteId RouteId { get; }
 
@@ -57,10 +57,10 @@ namespace GreatGalaxy.Dispatch.Models
                 return;
             }
             Events.Add(deliveryEvent);
-            UpdateStatus(deliveryEvent);
+            ProcessEvent(deliveryEvent);
         }
 
-        public void UpdateStatus(DeliveryEvent deliveryEvent)
+        public void ProcessEvent(DeliveryEvent deliveryEvent)
         {
             // This is a very simple implementation, in a real application we would have more complex logic here
             switch (deliveryEvent.EventType)
@@ -72,6 +72,12 @@ namespace GreatGalaxy.Dispatch.Models
                 case EventType.DestinationReached:
                     Status = DeliveryStatus.Delivered;
                     Arrived = deliveryEvent.Timestamp;
+                    break;
+                case EventType.CheckpointReached:
+                    if (deliveryEvent.RelatedCheckpoint.HasValue)
+                    {
+                        CheckpointsReached.Add(new CheckpointReached(deliveryEvent.RelatedCheckpoint.Value, deliveryEvent.Timestamp));
+                    }
                     break;
                 case EventType.Disruption:
                 case EventType.Disaster:

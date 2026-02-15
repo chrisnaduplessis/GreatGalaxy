@@ -8,7 +8,7 @@
         double OriginLongitude,
         string OriginCelestialBody,
         string OriginCelestialBodyPosition,
-        List<(string Line1, string Line2, string Line3, double Latitude, double Longitude, string CelestialBody, string CelestialBodyPosition)> Checkpoints,
+        List<AddCheckpointRequest> Checkpoints,
         string DestinationLine1,
         string DestinationLine2,
         string DestinationLine3,

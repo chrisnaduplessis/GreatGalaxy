@@ -9,11 +9,11 @@ using Xunit;
 namespace GreatGalaxy.Integration.Tests.Administration
 {
     public class DriverEndpointTests
-    : IClassFixture<TestWebApplicationFactory>
+    : IClassFixture<AdministrationWebApplicationFactory>
     {
         private readonly HttpClient client;
 
-        public DriverEndpointTests(TestWebApplicationFactory factory)
+        public DriverEndpointTests(AdministrationWebApplicationFactory factory)
         {
             client = factory.CreateClient();
         }

@@ -39,11 +39,12 @@ namespace GreatGalaxy.Dispatch.Repositories
         {
             return new DeliveryEntity
             {
-                Id = delivery.Id.Value,
+                Id = delivery.Id.HasValue ? delivery.Id.Value.Value : 0,
                 Departed = delivery.Departed,
                 Arrived = delivery.Arrived,
                 DriverId = delivery.DriverId.Value,
                 RouteId = delivery.RouteId.Value,
+                VehicleId = delivery.VehicleId.Value,
                 Status = delivery.Status,
                 CheckpointReached = delivery.CheckpointsReached.Select(cr => new CheckpointReachedEntity
                 {
