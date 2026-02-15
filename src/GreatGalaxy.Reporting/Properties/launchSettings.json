@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "GreatGalaxy.Reporting": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:60862;http://localhost:60863"
+    }
+  }
+}
