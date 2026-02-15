@@ -74,7 +74,8 @@ namespace GreatGalaxy.Dispatch.Repositories
                 deliveryEntity.Events.Select(e => new DeliveryEvent(e.EventId, e.EventType, e.Timestamp, e.Duration, e.RelatedCheckpoint.HasValue ? new LocationId(e.RelatedCheckpoint.Value) : null, e.Description)).ToList(),
                 deliveryEntity.Departed,
                 deliveryEntity.Arrived,
-                deliveryEntity.Status
+                deliveryEntity.Status,
+                deliveryEntity.CheckpointReached.Select(_ => new CheckpointReached(new LocationId(_.LocationId), _.Timestamp)).ToList()
             );
         }
     }

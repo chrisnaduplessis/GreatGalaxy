@@ -53,6 +53,7 @@ namespace GreatGalaxy.Dispatch.Repositories
         {
             return new LocationEntity
             {
+                Id = location.Id.Value.Value,
                 Line1 = location.Address.Line1,
                 Line2 = location.Address.Line2,
                 Line3 = location.Address.Line3,

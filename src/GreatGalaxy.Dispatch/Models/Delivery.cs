@@ -24,7 +24,7 @@ namespace GreatGalaxy.Dispatch.Models
 
         public DeliveryStatus Status { get; private set; } = DeliveryStatus.Pending;
 
-        public List<CheckpointReached> CheckpointsReached { get; } = new List<CheckpointReached>();
+        public List<CheckpointReached> CheckpointsReached { get; internal set; } = new List<CheckpointReached>();
 
         public Delivery(RouteId routeId, DriverId driverId, VehicleId vehicleId)
         {
@@ -33,7 +33,7 @@ namespace GreatGalaxy.Dispatch.Models
             VehicleId = vehicleId;
         }
 
-        public Delivery(DeliveryId id, RouteId routeId, DriverId driverId, VehicleId vehicleId, List<DeliveryEvent> events, DateTime? departed, DateTime? arrived, DeliveryStatus status)
+        public Delivery(DeliveryId id, RouteId routeId, DriverId driverId, VehicleId vehicleId, List<DeliveryEvent> events, DateTime? departed, DateTime? arrived, DeliveryStatus status, List<CheckpointReached> checkpointsReached)
         {
             Id = id;
             RouteId = routeId;
@@ -43,7 +43,8 @@ namespace GreatGalaxy.Dispatch.Models
             Departed = departed;
             Arrived = arrived;
             Status = status;
-        }
+            this.CheckpointsReached = checkpointsReached ?? this.CheckpointsReached;
+        } 
 
         public void AddEvent(DeliveryEvent deliveryEvent)
         {
