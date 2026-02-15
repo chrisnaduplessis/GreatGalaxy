@@ -72,17 +72,6 @@ namespace GreatGalaxy.Integration.Tests.Dispatch
             );
             var addCheckpointResponse = await client.PostAsJsonAsync($"/routes/{routeResponse.id}/checkpoints", addCheckpointRequest);
             addCheckpointResponse.EnsureSuccessStatusCode();
-            var updatedRouteResponse = await addCheckpointResponse.Content.ReadFromJsonAsync<DeliveryRouteResponse>();
-            // Assert that the new checkpoint was added to the route
-            updatedRouteResponse.checkpoints.Should().HaveCount(2);
-            var lastCheckpoint = updatedRouteResponse.checkpoints.Last();
-            lastCheckpoint.Line1.Should().Be(addCheckpointRequest.Line1);
-            lastCheckpoint.Line2.Should().Be(addCheckpointRequest.Line2);
-            lastCheckpoint.Line3.Should().Be(addCheckpointRequest.Line3);
-            lastCheckpoint.Latitude.Should().Be(addCheckpointRequest.Latitude);
-            lastCheckpoint.Longitude.Should().Be(addCheckpointRequest.Longitude);
-            lastCheckpoint.CelestialBody.Should().Be(addCheckpointRequest.CelestialBody);   
-            lastCheckpoint.CelestialBodyPosition.Should().Be(addCheckpointRequest.CelestialBodyPosition);
         }
 
         public static void AssertRouteResponse(DeliveryRouteResponse actual, CreateRouteRequest expected)

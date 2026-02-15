@@ -2,7 +2,6 @@
 using GreatGalaxy.Administration.Requests.Driver;
 using GreatGalaxy.Administration.Requests.Vehicle;
 using GreatGalaxy.Administration.Responses;
-using GreatGalaxy.Common.ValueTypes.Delivery;
 using GreatGalaxy.Common.ValueTypes.Event;
 using GreatGalaxy.Dispatch.Messages;
 using GreatGalaxy.Dispatch.Requests;
@@ -15,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Xunit;
 using Xunit.Abstractions;
 

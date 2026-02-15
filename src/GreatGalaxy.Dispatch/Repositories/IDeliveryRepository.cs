@@ -7,6 +7,11 @@ namespace GreatGalaxy.Dispatch.Repositories
 {
     public interface IDeliveryRepository: IBaseRepository<DeliveryEntity>
     {
+        /// <summary>
+        /// Create new delivery
+        /// </summary>
+        /// <param name="delivery">Delivery</param>
+        /// <returns></returns>
         Delivery Create(Delivery delivery);
 
         bool Update(Delivery delivery);

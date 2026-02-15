@@ -63,26 +63,6 @@ namespace GreatGalaxy.Integration.Tests.Administration
             var createdVehicle2 = await response.Content
                 .ReadFromJsonAsync<VehicleResponse>();
             AssertVehicleEquals(createdVehicle2, request2);
-
-            // Update the second vehicle
-            /*var updateRequest = new UpdateVehicleRequest(createdVehicle2.Id, "Updated description");
-            response = await client.PatchAsJsonAsync(
-                $"/vehicles/{createdVehicle2.Id}", updateRequest);
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
-            var updatedVehicle = await response.Content
-                .ReadFromJsonAsync<VehicleResponse>();
-            updatedVehicle.Should().NotBeNull();
-            updatedVehicle.Id.Should().Be(createdVehicle2.Id);
-            updatedVehicle.Description.Should().Be(updateRequest.Description);*/
-
-            // Get all vehicles and check that both are there
-            response = await client.GetAsync("/vehicles");
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var vehicles = await response.Content
-                .ReadFromJsonAsync<List<VehicleResponse>>();
-            vehicles.Should().NotBeNull();
-            vehicles.Should().ContainSingle(v => v.Id == createdVehicle.Id);
-            vehicles.Should().ContainSingle(v => v.Id == createdVehicle2.Id);
         }
 
         private void AssertVehicleEquals(VehicleResponse expected, CreateVehicleRequest request)

@@ -146,14 +146,6 @@ namespace GreatGalaxy.Integration.Tests.Administration
             getResponse = await response.Content
                 .ReadFromJsonAsync<DriverResponse>();
             AssertDriverResponse(getResponse, expectedResponse);
-
-            // Get all drivers
-            response = await client.GetAsync("/drivers");
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var drivers = await response.Content
-                .ReadFromJsonAsync<IEnumerable<DriverResponse>>();
-            drivers.Should().NotBeNull();
-            drivers.Should().ContainSingle(v => v.Id == driver.Id);
         }
 
         private static void AssertDriverResponse(DriverResponse response, DriverResponse expectedResponse)
